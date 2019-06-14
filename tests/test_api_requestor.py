@@ -4,6 +4,7 @@ import datetime
 import json
 import tempfile
 import uuid
+from decimal import Decimal
 
 import pytest
 
@@ -360,10 +361,16 @@ class TestAPIRequestor(object):
                 "alist": [1, 2, 3],
                 "adict": {"frobble": "bits"},
                 "adatetime": datetime.datetime(2013, 1, 1, tzinfo=GMT1()),
+                "float": 0.000000123,
+                "string": "0.000000123",
+                "decimal": Decimal("0.000000123"),
             }
             encoded = (
                 "adict[frobble]=bits&adatetime=1356994800&"
-                "alist[0]=1&alist[1]=2&alist[2]=3"
+                "alist[0]=1&alist[1]=2&alist[2]=3&"
+                "float=0.000000123&"
+                "string=0.000000123&"
+                "decimal=0.000000123"
             )
 
             resp, key = requestor.request(method, self.valid_path, params)

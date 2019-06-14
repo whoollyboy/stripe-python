@@ -1,5 +1,8 @@
 from __future__ import absolute_import, division, print_function
 
+import json
+from decimal import Decimal
+
 import stripe
 
 
@@ -60,3 +63,27 @@ class TestPlan(object):
             "delete", "/v1/plans/%s" % TEST_RESOURCE_ID
         )
         assert resource.deleted is True
+
+    def test_deserialize_decimal_string_as_string(self):
+        plan = stripe.Plan.construct_from(
+            json.loads('{"amount_precise": "0.000000123"}'), stripe.api_key
+        )
+        assert plan is not None
+        assert plan.amount_precise is not None
+        assert isinstance(plan.amount_precise, stripe.six.text_type)
+        assert plan.amount_precise == "0.000000123"
+
+    class PlanWithAccessor(stripe.Plan):
+        @property
+        def amount_precise(self):
+            return Decimal(self["amount_precise"])
+
+    def test_deserialize_decimal_string_as_decimal(self):
+        plan = TestPlan.PlanWithAccessor.construct_from(
+            json.loads('{"amount_precise": "0.000000123"}'), stripe.api_key
+        )
+        assert plan is not None
+        assert plan.amount_precise is not None
+        print(type(plan.amount_precise))
+        assert isinstance(plan.amount_precise, Decimal)
+        assert plan.amount_precise == Decimal("0.000000123")
