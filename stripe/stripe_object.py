@@ -3,6 +3,7 @@ from __future__ import absolute_import, division, print_function
 import datetime
 import json
 from copy import deepcopy
+from decimal import Decimal
 
 import stripe
 from stripe import api_requestor, util, six
@@ -34,6 +35,8 @@ def _serialize_list(array, previous):
 
 
 class StripeObject(dict):
+    DECIMAL_STRING_FIELDS = frozenset([])
+
     class ReprJSONEncoder(json.JSONEncoder):
         def default(self, obj):
             if isinstance(obj, datetime.datetime):
@@ -116,7 +119,12 @@ class StripeObject(dict):
 
     def __getitem__(self, k):
         try:
-            return super(StripeObject, self).__getitem__(k)
+            v = super(StripeObject, self).__getitem__(k)
+            if k in self.DECIMAL_STRING_FIELDS and isinstance(
+                v, six.string_types
+            ):
+                return Decimal(v)
+            return v
         except KeyError as err:
             if k in self._transient_values:
                 raise KeyError(

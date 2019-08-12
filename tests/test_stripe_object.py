@@ -4,6 +4,7 @@ import datetime
 import json
 import pickle
 from copy import copy, deepcopy
+from decimal import Decimal
 
 import pytest
 
@@ -304,3 +305,17 @@ class TestStripeObject(object):
         )
 
         assert obj.serialize(None) == {"nested": ""}
+
+    def test_decimal_string_fields(self):
+        class MyObject(stripe.stripe_object.StripeObject):
+            DECIMAL_STRING_FIELDS = frozenset(["decimal_string"])
+
+        obj = MyObject.construct_from(
+            {"decimal_string": "0.123456789012"}, "mykey"
+        )
+        assert obj.decimal_string == Decimal("0.123456789012")
+
+        obj = MyObject.construct_from(
+            {"decimal_string": 0.123456789012}, "mykey"
+        )
+        assert obj.decimal_string == 0.123456789012
