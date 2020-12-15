@@ -14,6 +14,13 @@ class Charge(
 ):
     OBJECT_NAME = "charge"
 
+    def pdf(self, idempotency_key=None, **params):
+        url = self.instance_url()
+        headers = util.populate_headers(idempotency_key)
+        resp = self.request_binary("get", url, params, headers)
+        return resp
+
+
     def capture(self, idempotency_key=None, **params):
         url = self.instance_url() + "/capture"
         headers = util.populate_headers(idempotency_key)

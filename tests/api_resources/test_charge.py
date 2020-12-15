@@ -60,6 +60,12 @@ class TestCharge(object):
         )
         assert isinstance(resource, stripe.Charge)
 
+    def test_can_pdf(self, request_mock):
+        charge = stripe.Charge.retrieve(TEST_RESOURCE_ID)
+        resource = charge.pdf()
+        print resource
+        #assert isinstance(resource, )
+
     def test_can_capture_classmethod(self, request_mock):
         resource = stripe.Charge.capture(TEST_RESOURCE_ID)
         request_mock.assert_requested(

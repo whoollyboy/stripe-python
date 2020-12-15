@@ -122,6 +122,13 @@ class APIRequestor(object):
         resp = self.interpret_response(rbody, rcode, rheaders)
         return resp, my_api_key
 
+    def request_binary(self, method, url, params=None, headers=None):
+        rbody, rcode, rheaders, my_api_key = self.request_raw(
+            method.lower(), url, params, headers
+        )
+        resp = self.interpret_response(rbody, rcode, rheaders)
+        return resp, my_api_key
+
     def handle_error_response(self, rbody, rcode, resp, rheaders):
         try:
             error_data = resp["error"]
