@@ -48,7 +48,8 @@ else:
                 '"requests" library is version %s. Stripe will fall back to '
                 "an alternate HTTP library so everything should work. We "
                 'recommend upgrading your "requests" library. If you have any '
-                "questions, please contact support@stripe.com. (HINT: running "
+                "questions, please contact support through '
+                "https://support.stripe.com/contact. (HINT: running "
                 '"pip install -U requests" should upgrade your requests '
                 "library to the latest version.)" % (version,)
             )
@@ -362,7 +363,7 @@ class RequestsClient(HTTPClient):
                 "Could not verify Stripe's SSL certificate.  Please make "
                 "sure that your network is not intercepting certificates.  "
                 "If this problem persists, let us know at "
-                "support@stripe.com."
+                "https://support.stripe.com/contact"
             )
             err = "%s: %s" % (type(e).__name__, str(e))
             should_retry = False
@@ -374,7 +375,7 @@ class RequestsClient(HTTPClient):
             msg = (
                 "Unexpected error communicating with Stripe.  "
                 "If this problem persists, let us know at "
-                "support@stripe.com."
+                "https://support.stripe.com/contact"
             )
             err = "%s: %s" % (type(e).__name__, str(e))
             should_retry = True
@@ -383,7 +384,7 @@ class RequestsClient(HTTPClient):
             msg = (
                 "Unexpected error communicating with Stripe.  "
                 "If this problem persists, let us know at "
-                "support@stripe.com."
+                "https://support.stripe.com/contact"
             )
             err = "%s: %s" % (type(e).__name__, str(e))
             should_retry = False
@@ -392,7 +393,7 @@ class RequestsClient(HTTPClient):
                 "Unexpected error communicating with Stripe. "
                 "It looks like there's probably a configuration "
                 "issue locally.  If this problem persists, let us "
-                "know at support@stripe.com."
+                "know at https://support.stripe.com/contact"
             )
             err = "A %s was raised" % (type(e).__name__,)
             if str(e):
@@ -470,7 +471,7 @@ class UrlFetchClient(HTTPClient):
                 "The Stripe library attempted to fetch an "
                 "invalid URL (%r). This is likely due to a bug "
                 "in the Stripe Python bindings. Please let us know "
-                "at support@stripe.com." % (url,)
+                "at https://support.stripe.com/contact " % (url,)
             )
         elif isinstance(e, urlfetch.DownloadError):
             msg = "There was a problem retrieving data from Stripe."
@@ -478,12 +479,12 @@ class UrlFetchClient(HTTPClient):
             msg = (
                 "There was a problem receiving all of your data from "
                 "Stripe.  This is likely due to a bug in Stripe. "
-                "Please let us know at support@stripe.com."
+                "Please let us know at https://support.stripe.com/contact"
             )
         else:
             msg = (
                 "Unexpected error communicating with Stripe. If this "
-                "problem persists, let us know at support@stripe.com."
+                "problem persists, let us know at https://support.stripe.com/contact"
             )
 
         msg = textwrap.fill(msg) + "\n\n(Network error: " + str(e) + ")"
@@ -605,7 +606,7 @@ class PycurlClient(HTTPClient):
                 "internet connection and try again.  If this problem "
                 "persists, you should check Stripe's service status at "
                 "https://twitter.com/stripestatus, or let us know at "
-                "support@stripe.com."
+                "https://support.stripe.com/contact"
             )
             should_retry = True
         elif e.args[0] in [pycurl.E_SSL_CACERT, pycurl.E_SSL_PEER_CERTIFICATE]:
@@ -613,13 +614,13 @@ class PycurlClient(HTTPClient):
                 "Could not verify Stripe's SSL certificate.  Please make "
                 "sure that your network is not intercepting certificates.  "
                 "If this problem persists, let us know at "
-                "support@stripe.com."
+                "https://support.stripe.com/contact"
             )
             should_retry = False
         else:
             msg = (
                 "Unexpected error communicating with Stripe. If this "
-                "problem persists, let us know at support@stripe.com."
+                "problem persists, let us know at https://support.stripe.com/contact"
             )
             should_retry = False
 
@@ -698,7 +699,7 @@ class Urllib2Client(HTTPClient):
     def _handle_request_error(self, e):
         msg = (
             "Unexpected error communicating with Stripe. "
-            "If this problem persists, let us know at support@stripe.com."
+            "If this problem persists, let us know at https://support.stripe.com/contact"
         )
         msg = textwrap.fill(msg) + "\n\n(Network error: " + str(e) + ")"
         raise error.APIConnectionError(msg)

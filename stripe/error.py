@@ -23,7 +23,7 @@ class StripeError(Exception):
             except BaseException:
                 http_body = (
                     "<Could not decode body as utf-8. "
-                    "Please report to support@stripe.com>"
+                    "Please report to https://support.stripe.com/contact>"
                 )
 
         self._message = message

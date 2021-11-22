@@ -304,8 +304,8 @@ class APIRequestor(object):
                 "No API key provided. (HINT: set your API key using "
                 '"stripe.api_key = <API-KEY>"). You can generate API keys '
                 "from the Stripe web interface.  See https://stripe.com/api "
-                "for details, or email support@stripe.com if you have any "
-                "questions."
+                "for details, or contact support through "
+                "https://support.stripe.com/contact if you have any questions."
             )
 
         abs_url = "%s%s" % (self.api_base, url)
@@ -338,8 +338,9 @@ class APIRequestor(object):
         else:
             raise error.APIConnectionError(
                 "Unrecognized HTTP method %r.  This may indicate a bug in the "
-                "Stripe bindings.  Please contact support@stripe.com for "
-                "assistance." % (method,)
+                "Stripe bindings.  Please contact support through " 
+                "https://support.stripe.com/contact or email support@stripe.com "
+                "for assistance." % (method,)
             )
 
         headers = self.request_headers(my_api_key, method)
