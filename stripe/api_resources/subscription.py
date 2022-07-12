@@ -2,6 +2,7 @@
 from __future__ import absolute_import, division, print_function
 
 from stripe import api_requestor
+from stripe import util
 from stripe.api_resources.abstract import CreateableAPIResource
 from stripe.api_resources.abstract import DeletableAPIResource
 from stripe.api_resources.abstract import ListableAPIResource
@@ -19,6 +20,39 @@ class Subscription(
     UpdateableAPIResource,
 ):
     OBJECT_NAME = "subscription"
+
+    @classmethod
+    def _cls_cancel(
+        cls,
+        subscription_exposed_id,
+        api_key=None,
+        stripe_version=None,
+        stripe_account=None,
+        **params
+    ):
+        return cls._static_request(
+            "delete",
+            "/v1/subscriptions/{subscription_exposed_id}".format(
+                subscription_exposed_id=util.sanitize_id(
+                    subscription_exposed_id
+                )
+            ),
+            api_key=api_key,
+            stripe_version=stripe_version,
+            stripe_account=stripe_account,
+            params=params,
+        )
+
+    @util.class_method_variant("_cls_cancel")
+    def cancel(self, idempotency_key=None, **params):
+        return self._request(
+            "delete",
+            "/v1/subscriptions/{subscription_exposed_id}".format(
+                subscription_exposed_id=util.sanitize_id(self.get("id"))
+            ),
+            idempotency_key=idempotency_key,
+            params=params,
+        )
 
     @classmethod
     def search(cls, *args, **kwargs):

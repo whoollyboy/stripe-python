@@ -18,10 +18,10 @@ class TestApplicationFee(object):
         appfee = stripe.ApplicationFee.retrieve(TEST_RESOURCE_ID)
         resource = appfee.refund()
         request_mock.assert_requested(
-            "post", "/v1/application_fees/%s/refund" % TEST_RESOURCE_ID
+            "post", "/v1/application_fees/%s/refunds" % TEST_RESOURCE_ID
         )
-        assert isinstance(resource, stripe.ApplicationFee)
-        assert resource is appfee
+        assert isinstance(resource, stripe.ApplicationFeeRefund)
+        assert resource is not appfee
 
 
 class TestApplicationFeeRefunds(object):

@@ -38,6 +38,37 @@ class Customer(
     OBJECT_NAME = "customer"
 
     @classmethod
+    def _cls_balance_transactions(
+        cls,
+        customer,
+        api_key=None,
+        stripe_version=None,
+        stripe_account=None,
+        **params
+    ):
+        return cls._static_request(
+            "get",
+            "/v1/customers/{customer}/balance_transactions".format(
+                customer=util.sanitize_id(customer)
+            ),
+            api_key=api_key,
+            stripe_version=stripe_version,
+            stripe_account=stripe_account,
+            params=params,
+        )
+
+    @util.class_method_variant("_cls_balance_transactions")
+    def balance_transactions(self, idempotency_key=None, **params):
+        return self._request(
+            "get",
+            "/v1/customers/{customer}/balance_transactions".format(
+                customer=util.sanitize_id(self.get("id"))
+            ),
+            idempotency_key=idempotency_key,
+            params=params,
+        )
+
+    @classmethod
     def _cls_create_funding_instructions(
         cls,
         customer,
