@@ -40,6 +40,7 @@ clean:
 update-version:
 	@echo "$(VERSION)" > VERSION
 	@perl -pi -e 's|VERSION = "[.\d\w]+"|VERSION = "$(VERSION)"|' stripe/version.py
+	@perl -pi -e 's|pip install stripe==[.\d\w]+|pip install stripe==$(shell git describe --match "v*b*" --abbrev=0 --tags $$(git rev-list --tags --max-count=1) | cut -c 2-)|' README.md
 
 codegen-format: fmt
 
