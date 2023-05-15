@@ -10,7 +10,7 @@ class Settings(SingletonAPIResource, UpdateableAPIResource):
     """
     You can use Tax `Settings` to manage configurations used by Stripe Tax calculations.
 
-    Related guide: [Using the Settings API](https://stripe.com/docs/tax/settings-api).
+    Related guide: [Using the Settings API](https://stripe.com/docs/tax/settings-api)
     """
 
     OBJECT_NAME = "tax.settings"
