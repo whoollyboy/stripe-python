@@ -110,3 +110,65 @@ class Account(ListableAPIResource):
             idempotency_key=idempotency_key,
             params=params,
         )
+
+    @classmethod
+    def _cls_subscribe(
+        cls,
+        account,
+        api_key=None,
+        stripe_version=None,
+        stripe_account=None,
+        **params
+    ):
+        return cls._static_request(
+            "post",
+            "/v1/financial_connections/accounts/{account}/subscribe".format(
+                account=util.sanitize_id(account)
+            ),
+            api_key=api_key,
+            stripe_version=stripe_version,
+            stripe_account=stripe_account,
+            params=params,
+        )
+
+    @util.class_method_variant("_cls_subscribe")
+    def subscribe(self, idempotency_key=None, **params):
+        return self._request(
+            "post",
+            "/v1/financial_connections/accounts/{account}/subscribe".format(
+                account=util.sanitize_id(self.get("id"))
+            ),
+            idempotency_key=idempotency_key,
+            params=params,
+        )
+
+    @classmethod
+    def _cls_unsubscribe(
+        cls,
+        account,
+        api_key=None,
+        stripe_version=None,
+        stripe_account=None,
+        **params
+    ):
+        return cls._static_request(
+            "post",
+            "/v1/financial_connections/accounts/{account}/unsubscribe".format(
+                account=util.sanitize_id(account)
+            ),
+            api_key=api_key,
+            stripe_version=stripe_version,
+            stripe_account=stripe_account,
+            params=params,
+        )
+
+    @util.class_method_variant("_cls_unsubscribe")
+    def unsubscribe(self, idempotency_key=None, **params):
+        return self._request(
+            "post",
+            "/v1/financial_connections/accounts/{account}/unsubscribe".format(
+                account=util.sanitize_id(self.get("id"))
+            ),
+            idempotency_key=idempotency_key,
+            params=params,
+        )
